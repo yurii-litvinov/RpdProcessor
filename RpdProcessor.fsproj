@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DebugType>portable</DebugType>
+    <AssemblyName>RpdProcessor</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.*" />
+    <PackageReference Include="Giraffe" Version="3.4.*" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Model.fs" />
+    <Compile Include="Data.fs" />
+    <Compile Include="View.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="web.config" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WebRoot\scripts.js" CopyToOutputDirectory="Always" />
+    <None Include="WebRoot\main.css" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+
+</Project>
