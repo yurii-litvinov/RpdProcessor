@@ -40,7 +40,8 @@ function selectYear(selectedPlan) {
 function showSelectedCompetences() {
     var selectedPlan = selectPlan();
     var selectedYear = selectYear(selectedPlan);
-    var competencesValue = document.getElementById("competences").value
+    var regex = /\n/gi
+    var competencesValue = document.getElementById("competences").value.replace(regex, ' ')
 
     var yearCompetences =
         viewModel
