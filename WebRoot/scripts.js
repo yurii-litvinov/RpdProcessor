@@ -89,7 +89,7 @@ function showSelectedCompetences() {
 }
 
 function interpretHours() {
-    var input = document.getElementById("hours").value.split(' ');
+    var input = document.getElementById("hours").value.split(/\s|\t/);
     var headers = ['Лекции', 'Семинары', 'Консультации', 'Практические занятия', 'Лабораторные работы',
         'Контрольные работы', 'Коллоквиумы', 'Текущий контроль', 'Промежуточная аттестация',
         'Сам. работа, под руководством преподавателя', 'Сам. работа, в присутствии преподавателя',

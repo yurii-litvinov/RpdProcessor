@@ -53,7 +53,7 @@ module Views =
         div [] [
             h1 [] [ encodedText "Генерилка компетенций" ]
             p [] [wrapAndSelect "plans" (model.Plans |> Seq.map (fun p -> p.Key))]
-            p [] [wrapAndSelect "years" ["2016"; "2017"; "2018"; "2019"]]
+            p [] [wrapAndSelect "years" ["2016"; "2017"; "2018"; "2019"; "2020"]]
             p [_class "comment" ] [ encodedText "Сюда спкопипастить компетенции из строки с дисциплиной, как они есть" ]
             p [] [textarea [_id "competences"; _rows "5"; _cols "50"; KeyValue("onchange", showCompetences)] []]
             p [] [
