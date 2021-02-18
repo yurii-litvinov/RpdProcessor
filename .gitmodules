@@ -1,0 +1,4 @@
+[submodule "CurriculumParser/DecreeGenerator"]
+	path = CurriculumParser/DecreeGenerator
+	url = https://github.com/resueman/DecreeGenerator.git
+	branch = v1

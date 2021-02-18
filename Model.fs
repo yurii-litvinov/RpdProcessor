@@ -1,20 +1,36 @@
 ﻿module RpdProcessor.Model
 
+type Discipline =
+    {
+        Semester: int
+        Code: string
+        Name: string
+        LaborIntensity: int
+        Competences: string seq
+        AttestationType: string
+        WorkTypes: (string * int) seq
+    }
+
 type Competence =
     {
-        Name: string;
+        Name: string
         Description: string
     }
 
-type PlanCompetences =
+type PlanInfo = 
     {
-        Year: string;
-        Competences: Competence seq
+        Name: string
+        Year: string
     }
 
-type Model =
+type WorkloadItem =
     {
-        Plans: Map<string, PlanCompetences seq>
+        ItemName: string
+        Hours: int
     }
 
-
+type WorkTypesInfo =
+    {
+        Semester: int
+        WorkTypes: WorkloadItem seq
+    }

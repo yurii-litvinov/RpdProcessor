@@ -1,31 +1,72 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <DebugType>portable</DebugType>
+    <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>RpdProcessor</AssemblyName>
     <OutputType>Exe</OutputType>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.*" />
-    <PackageReference Include="Giraffe" Version="3.4.*" />
+    <PackageReference Include="Giraffe" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Ply" Version="0.3.1" />
     <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Model.fs" />
-    <Compile Include="Data.fs" />
+    <Compile Include="CurriculumUtils.fs" />
     <Compile Include="View.fs" />
+    <Compile Include="Controller.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="scripts\app.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="scripts\app.tsx" />
+    <Content Include="scripts\app.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
+    <None Include="scripts\app.js.map" />
+    
+    <None Include="webpack.config.js" />
+    <Content Include="scripts\tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="web.config" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="WebRoot\scripts.js" CopyToOutputDirectory="Always" />
     <None Include="WebRoot\main.css" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="WorkingPlans\СВ.5162-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\ВМ.5665-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="CurriculumParser\DecreeGenerator\DecreeGenerator\CurriculumParser\CurriculumParser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="5.0.1" />
+  </ItemGroup>
+  
+  <Target Name="CopyJs" AfterTargets="AfterBuild">
+    <Copy SourceFiles="scripts\app.js" DestinationFolder="$(OutDir)/WebRoot" />
+    <Copy SourceFiles="scripts\app.js" DestinationFolder="$(ProjectDir)/WebRoot" />
+  </Target>
+
+  <Target Name="Webpack" AfterTargets="CopyJs">
+    <Exec Command="npx webpack" />
+  </Target>
 
 </Project>

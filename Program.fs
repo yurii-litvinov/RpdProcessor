@@ -1,4 +1,4 @@
-module RpdProcessor.App
+﻿module RpdProcessor.App
 
 open System
 open System.IO
@@ -10,15 +10,16 @@ open Microsoft.Extensions.DependencyInjection
 open Giraffe
 
 open View
-open Data
+open Model
+open CurriculumUtils
+open Controller
 
 // ---------------------------------
 // Web app
 // ---------------------------------
 
 let indexHandler =
-    let model = data ()
-    let view = Views.index model
+    let view = Views.index ()
     htmlView view
 
 let webApp =
@@ -26,6 +27,9 @@ let webApp =
         GET >=>
             choose [
                 route "/" >=> indexHandler
+                routef "/competences/%s/%s" competencesHandler
+                routef "/hours/%s" hoursHandler
+                route "/workPlans" >=> workPlansHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
@@ -54,6 +58,7 @@ let configureApp (app : IApplicationBuilder) =
     | false -> app.UseGiraffeErrorHandler errorHandler)
         .UseHttpsRedirection()
         .UseCors(configureCors)
+        .UseDefaultFiles()
         .UseStaticFiles()
         .UseGiraffe(webApp)
 
