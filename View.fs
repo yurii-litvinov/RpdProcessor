@@ -1,11 +1,14 @@
 ﻿module RpdProcessor.View
 
 open Giraffe
+open Newtonsoft.Json
+
+open DataContract
 
 module Views =
     open GiraffeViewEngine
 
-    let layout (content: XmlNode list) =
+    let layout (model: PlanInfo seq) (content: XmlNode list) =
         html [] [
             head [] [
                 title []  [ encodedText "RpdProcessor" ]
@@ -15,13 +18,15 @@ module Views =
                 link [ _rel "stylesheet"
                        _href "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" ]
                 script [_src "bundle.js"] []
+                script [_type "application/javascript"] 
+                       [ rawText <| "var plansList = " + (JsonConvert.SerializeObject model)]
             ]
             body [
                 attr "onload" "Scripts.render()"
             ] content
         ]
 
-    let index () =
+    let index model =
         [
             div [_id "root"] []
-        ] |> layout
+        ] |> layout model

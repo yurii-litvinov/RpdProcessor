@@ -9,27 +9,18 @@ open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
 
-open View
-open Model
-open CurriculumUtils
 open Controller
 
 // ---------------------------------
 // Web app
 // ---------------------------------
 
-let indexHandler =
-    let view = Views.index ()
-    htmlView view
-
 let webApp =
     choose [
         GET >=>
             choose [
                 route "/" >=> indexHandler
-                routef "/competences/%s/%s" competencesHandler
-                routef "/hours/%s" hoursHandler
-                route "/workPlans" >=> workPlansHandler
+                routef "/disciplineInfo/%s/%s" disciplineInfoHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]
 

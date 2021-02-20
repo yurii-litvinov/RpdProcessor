@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Model.fs" />
+    <Compile Include="DataContract.fs" />
     <Compile Include="CurriculumUtils.fs" />
     <Compile Include="View.fs" />
     <Compile Include="Controller.fs" />
@@ -32,12 +32,6 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="scripts\app.tsx" />
-    <Content Include="scripts\app.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    
-    <None Include="scripts\app.js.map" />
-    
     <None Include="webpack.config.js" />
     <Content Include="scripts\tsconfig.json" />
   </ItemGroup>

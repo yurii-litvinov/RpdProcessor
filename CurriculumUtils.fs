@@ -4,7 +4,7 @@ open System.Text.RegularExpressions
 open System.IO
 
 open CurriculumParser
-open Model
+open DataContract
 
 type Curriculum(fileName: string) =
     let curriculum = DocxCurriculum(fileName)
@@ -34,31 +34,40 @@ type Curriculum(fileName: string) =
     let getWorkTypes (impl: DisciplineImplementation) =
         let workHours = impl.WorkHours.Split [|' '|] |> Seq.map int
 
-        Seq.zip workTypes workHours |> Seq.filter (fun wt -> snd wt > 0) |> Seq.toList
+        Seq.zip workTypes workHours 
+        |> Seq.filter ((<=) 0 << snd) 
+        |> Seq.map (fun (t, h) -> {Name = t; Hours = h})
+        |> Seq.toList
 
     let parseImplementations (impl: DisciplineImplementation) =
         {
             Semester = impl.Semester
-            Code = impl.Discipline.Code
-            Name = impl.Discipline.RussianName 
             LaborIntensity = impl.LaborIntensity
-            Competences = impl.Competences |> Seq.map (fun (c: CurriculumParser.Competence) -> c.Code)
             AttestationType = impl.MonitoringTypes
-            WorkTypes = getWorkTypes impl
+            Workload = getWorkTypes impl
         }
 
+    let competences (discipline: CurriculumParser.Discipline) =
+        discipline.Implementations.[0].Competences
+        |> Seq.map (fun c -> {Code = c.Code; Description = c.Description})
+        |> Seq.toList
+
     let parseDiscipline (discipline: CurriculumParser.Discipline) =
-        discipline.Implementations
-        |> Seq.map parseImplementations
+        let semesters = 
+            discipline.Implementations
+            |> Seq.map parseImplementations
+            |> Seq.toList
+
+        { 
+            Code = discipline.Code
+            Name = discipline.RussianName
+            Competences = competences discipline
+            Semesters = semesters
+        }
 
     member _.Disciplines =
         curriculum.Disciplines
         |> Seq.map parseDiscipline
-        |> Seq.concat
-
-    member _.Competences = 
-        curriculum.Competences
-        |> Seq.map (fun c -> { Name = c.Code; Description = c.Description })
 
     member _.Programme = programme
 
