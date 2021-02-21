@@ -13,15 +13,13 @@ let indexHandler: HttpFunc -> HttpContext -> HttpFuncResult =
     let view = Views.index curriculums
     htmlView view
 
-/// Provides information about discipline and its implementations by semester
-/// Expecting working plan in <programme>_<year> format, for example, "ВМ.5665_2020"
+/// Provides information about discipline and its implementations by semester.
+/// Expecting working plan in <programme>-<year> format, for example, "ВМ.5665_2020"
 let disciplineInfoHandler (plan: string, rpdNum: string) =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         task {
-            let curriculums = loadCurriculums ()
+            let curriculum = loadCurriculum plan
             
-            let curriculum = curriculums |> Seq.tryFind (fun c -> $"{c.Programme}_{c.Year}" = plan)
-
             match curriculum with
             | None -> return! json () next ctx
             | Some c -> 
@@ -31,3 +29,10 @@ let disciplineInfoHandler (plan: string, rpdNum: string) =
                 | Some discipline ->
                     return! json discipline next ctx
         }
+
+/// Returns JSON with information about loaded plans (array PlanInfo objects).
+let listCurriculumsHandler (next : HttpFunc) (ctx : HttpContext) =
+    task {
+        let curriculums = listCurriculums ()
+        return! json curriculums next ctx
+    }

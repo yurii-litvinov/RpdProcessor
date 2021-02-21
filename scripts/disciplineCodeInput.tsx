@@ -24,7 +24,7 @@ export class DisciplineCodeInput extends React.Component<Props, State> {
         let result =
             <div>
                 <h1>Номер РПД:</h1>
-                <p>Сюда введите числовой код РПД, например, 002212</p>
+                <p>Сюда введите числовой код РПД, например, "002212" (сработает для СВ.5006.* и СВ.5162.*)</p>
                 {this.props.apiStatus == ApiStatus.Ok
                     ? <TextField variant="outlined" label="Код РПД" onChange={this.handleChange} defaultValue={this.state.currentCode} />
                     : this.props.apiStatus == ApiStatus.DisciplineNotFound

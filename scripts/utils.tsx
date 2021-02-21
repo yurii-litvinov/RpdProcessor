@@ -2,7 +2,7 @@
 
 export class Utils {
     static planInfoToString(plan: PlanInfo) {
-        return `${plan.name}_${plan.year}`
+        return `${plan.name}-${plan.year}`
     }
 }
 

@@ -73,9 +73,11 @@ type Curriculum(fileName: string) =
 
     member _.Year = year
 
-let loadCurriculums () =
-    System.IO.Directory.GetFiles("WorkingPlans", "*.docx")
-    |> Seq.map (fun file -> Curriculum(file))
+let loadCurriculum (name: string) =
+    if File.Exists $"WorkingPlans/{name}.docx" then
+        Some(Curriculum($"WorkingPlans/{name}.docx"))
+    else
+        None
 
 let listCurriculums () =
     let parseFileName fileName = 

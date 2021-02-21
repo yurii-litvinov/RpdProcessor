@@ -4,7 +4,7 @@ RPD Processor — a tool for automating some tasks related to editing of methodi
 
 ## How to build and run a project
 
-You will need [NPM package manager](https://www.npmjs.com/) and [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) (we recommend using [Chocolatey](https://chocolatey.org/) to manage software, see https://chocolatey.org/packages/nodejs.install and https://chocolatey.org/packages/dotnet-5.0-sdk for required tools).
+You will need [NPM package manager](https://www.npmjs.com/) and [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) (we recommend using [Chocolatey](https://chocolatey.org/) to manage software on Windows, see [https://chocolatey.org/packages/nodejs.install] and [https://chocolatey.org/packages/dotnet-5.0-sdk] for required tools).
 
 Clone the repository, run
 ```

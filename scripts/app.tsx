@@ -5,7 +5,7 @@ import { PlanInfo, Discipline } from './model'
 import { ApiStatus, Utils } from './utils';
 import { PlanSelector } from './planSelector';
 import { Competences } from './competences';
-import { DisciplineCodeInput } from './DisciplineCodeInput';
+import { DisciplineCodeInput } from './disciplineCodeInput';
 import { BasicInfo } from './basicInfo';
 import { SemesterList } from './semesterList';
 

@@ -34,6 +34,7 @@
     <TypeScriptCompile Include="scripts\app.tsx" />
     <None Include="webpack.config.js" />
     <Content Include="scripts\tsconfig.json" />
+    <None Include="WebRoot/bundle.js" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,8 +43,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="WorkingPlans\СВ.5162-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\ВМ.5665-2019.docx" CopyToOutputDirectory="PreserveNewest" />
     <None Include="WorkingPlans\ВМ.5665-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\ВМ.5666-2019.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\ВМ.5666-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5006-2019.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5006-2018.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5006-2017.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5080-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5080-2019.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5080-2018.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5080-2017.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="WorkingPlans\СВ.5162-2020.docx" CopyToOutputDirectory="PreserveNewest" />
+    <!--<None Include="WorkingPlans\МК.3019-2020.docx" CopyToOutputDirectory="PreserveNewest" />-->
+    <!--<None Include="WorkingPlans\МК.3019-2019.docx" CopyToOutputDirectory="PreserveNewest" />-->
+    <!--<None Include="WorkingPlans\МК.3019-2018.docx" CopyToOutputDirectory="PreserveNewest" />-->
+    <!--<None Include="WorkingPlans\МК.3019-2017.docx" CopyToOutputDirectory="PreserveNewest" />-->
   </ItemGroup>
 
   <ItemGroup>
@@ -53,13 +68,8 @@
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="5.0.1" />
   </ItemGroup>
-  
-  <Target Name="CopyJs" AfterTargets="AfterBuild">
-    <Copy SourceFiles="scripts\app.js" DestinationFolder="$(OutDir)/WebRoot" />
-    <Copy SourceFiles="scripts\app.js" DestinationFolder="$(ProjectDir)/WebRoot" />
-  </Target>
 
-  <Target Name="Webpack" AfterTargets="CopyJs">
+  <Target Name="Webpack" AfterTargets="CompileTypeScriptWithTSConfig" BeforeTargets="CopyFilesToOutputDirectory">
     <Exec Command="npx webpack" />
   </Target>
 

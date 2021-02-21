@@ -21,6 +21,7 @@ let webApp =
             choose [
                 route "/" >=> indexHandler
                 routef "/disciplineInfo/%s/%s" disciplineInfoHandler
+                route "/plans" >=> listCurriculumsHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
