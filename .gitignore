@@ -338,3 +338,10 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+
+### Custom rules
+# Ignore all JavaScript files (we use TypeScript only for frontend development)
+*.js
+*.js.map
+!webpack.config.js

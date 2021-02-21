@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RpdProcessor", "RpdProcessor.fsproj", "{519FE81D-4F81-4DC1-9E83-4AE2460F4D8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurriculumParser", "CurriculumParser\DecreeGenerator\DecreeGenerator\CurriculumParser\CurriculumParser.csproj", "{73BCC7FB-D067-4F0A-B2B4-4E30F74E1B51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurriculumParser", "curriculum-parser\CurriculumParser\CurriculumParser.csproj", "{73BCC7FB-D067-4F0A-B2B4-4E30F74E1B51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
