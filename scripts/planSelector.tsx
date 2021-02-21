@@ -18,7 +18,7 @@ export class PlanSelector extends React.Component<PlanSelectorProps> {
         if (this.props.plans == []) {
             return <p>Загрузка учебных планов...</p>
         } else {
-            let groupedPlans = this.props.plans.reduce((acc: Map<string, PlanInfo[]>, plan: PlanInfo, index: number) => {
+            let groupedPlans = this.props.plans.reduce((acc: Map<string, PlanInfo[]>, plan: PlanInfo, _: number) => {
                 if (!acc.has(plan.name)) {
                     acc.set(plan.name, [])
                 }
@@ -39,7 +39,7 @@ export class PlanSelector extends React.Component<PlanSelectorProps> {
             let tableButtons = []
             for (let key of groupedPlans.keys()) {
                 let column = []
-                for (let plan of groupedPlans.get(key)) {
+                for (let plan of groupedPlans.get(key).sort((a: PlanInfo, b: PlanInfo) => a.year > b.year ? -1 : 1)) {
                     let color: PropTypes.Color = plan == this.props.selectedPlan ? "secondary" : "default"
                     column.push(
                         <Button
