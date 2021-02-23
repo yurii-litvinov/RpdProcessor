@@ -1,13 +1,16 @@
-﻿module RpdProcessor.View
+﻿/// Serves initial HTML page with links to required scripts and resources.
+module RpdProcessor.View
 
 open Giraffe
 open Newtonsoft.Json
 
 open DataContract
 
+/// Module with HTML generating functions.
 module Views =
     open GiraffeViewEngine
 
+    /// Provides general layout for index page, includes working plans list.
     let layout (model: PlanInfo seq) (content: XmlNode list) =
         html [] [
             head [] [
@@ -26,6 +29,7 @@ module Views =
             ] content
         ]
 
+    /// Provides index page.
     let index model =
         [
             div [_id "root"] []

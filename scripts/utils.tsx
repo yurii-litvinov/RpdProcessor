@@ -5,10 +5,3 @@ export class Utils {
         return `${plan.name}-${plan.year}`
     }
 }
-
-export enum ApiStatus {
-    Ok,
-    InProgress,
-    DisciplineNotFound,
-    CommunicationError
-}

@@ -1,13 +1,15 @@
 ﻿import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import { PlanInfo, Discipline } from './model'
-import { ApiStatus, Utils } from './utils';
+import { PlanInfo, Discipline, Semester } from './model'
+import { Utils } from './utils';
 import { PlanSelector } from './planSelector';
 import { Competences } from './competences';
 import { DisciplineCodeInput } from './disciplineCodeInput';
 import { BasicInfo } from './basicInfo';
 import { SemesterList } from './semesterList';
+import { CourseStructureEditor, CourseStructureLogic } from './courseStructureEditor';
+import { ApiStatus, CoursePart, SemesterParts } from './commonTypes';
 
 declare var plansList: PlanInfo[]
 
@@ -16,6 +18,7 @@ type AppState = {
     selectedPlan: PlanInfo
     discipline: Discipline
     status: ApiStatus
+    courseParts: SemesterParts[]
 }
 
 class App extends React.Component<{}, AppState> {
@@ -26,7 +29,8 @@ class App extends React.Component<{}, AppState> {
         super(props)
         let data: PlanInfo[] = plansList
         this.state = {
-            plans: data, selectedPlan: data[0], discipline: null, status: ApiStatus.Ok }
+            plans: data, selectedPlan: data[0], discipline: null, status: ApiStatus.Ok, courseParts: []
+        }
     }
 
     private fetchDisciplineInfo = (plan: PlanInfo) => {
@@ -37,7 +41,8 @@ class App extends React.Component<{}, AppState> {
                 .then(
                     (result: Discipline) => {
                         if (result != null) {
-                            this.setState({ discipline: result, status: ApiStatus.Ok })
+                            let parts = CourseStructureLogic.initCourseParts(result)
+                            this.setState({ discipline: result, status: ApiStatus.Ok, courseParts: parts })
                         } else {
                             this.setState({ status: ApiStatus.DisciplineNotFound })
                         }
@@ -62,6 +67,35 @@ class App extends React.Component<{}, AppState> {
         // else just ignore this, someone not finished typing.
     }
 
+    private handleAddPartClick = (semester: Semester) => {
+        this.setState((state, _) => {
+            let parts = state.courseParts
+            let s = parts.find(p => p.semester == semester)
+            s.parts.push(CourseStructureLogic.createNewPart(semester))
+            return {
+                courseParts: parts
+            }
+        })
+    }
+
+    private handleUpdateHours = (semester: Semester, parts: CoursePart[]) => {
+        this.setState((state, _) => {
+            let semesterParts = state.courseParts
+            let semesterPart = semesterParts.find(v => v.semester == semester)
+            semesterPart.parts = parts
+            return { courseParts: semesterParts }
+        })
+    }
+
+    private handleHoursChange = (part: CoursePart, index: number, value: number) => {
+        this.setState((state, _) => {
+            part.workloads[index].hours = value
+            return {
+                courseParts: state.courseParts
+            }
+        })
+    }
+
     render() {
         let result =
             <div>
@@ -75,6 +109,13 @@ class App extends React.Component<{}, AppState> {
                 <BasicInfo discipline={this.state.discipline} />
                 <Competences competences={this.state.discipline?.competences} />
                 <SemesterList discipline={this.state.discipline} />
+                <CourseStructureEditor
+                    discipline={this.state.discipline}
+                    courseParts={this.state.courseParts}
+                    onNewPart={this.handleAddPartClick}
+                    onHoursChange={this.handleHoursChange}
+                    onUpdateHours={this.handleUpdateHours}
+                />
             </div>
         return result
     }

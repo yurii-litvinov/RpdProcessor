@@ -31,7 +31,7 @@ export class PlanSelector extends React.Component<PlanSelectorProps> {
             let tableHeadCells = []
             for (let key of groupedPlans.keys()) {
                 tableHeadCells.push(
-                    <TableCell align="center" style={{ borderWidth: 1, borderColor: 'grey', borderStyle: 'solid' }}>
+                    <TableCell key={key} align="center" style={{ borderWidth: 1, borderColor: 'grey', borderStyle: 'solid' }}>
                         {key}
                     </TableCell>)
             }
@@ -67,8 +67,8 @@ export class PlanSelector extends React.Component<PlanSelectorProps> {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    {tableButtons.map((c) =>
-                                        <TableCell align="center" style={{ borderWidth: 1, borderColor: 'grey', borderStyle: 'solid' }}>
+                                    {tableButtons.map((c, i) =>
+                                        <TableCell key={i} align="center" style={{ borderWidth: 1, borderColor: 'grey', borderStyle: 'solid' }}>
                                             {c}
                                         </TableCell>)}
                                 </TableRow>

@@ -1,6 +1,6 @@
 ﻿import { CircularProgress, Grid, TextField } from "@material-ui/core"
 import * as React from "react"
-import { ApiStatus } from "./utils"
+import { ApiStatus } from "./commonTypes"
 
 type Props = {
     onDisciplineCodeChanged: (disciplineCode: string) => void

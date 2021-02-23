@@ -1,4 +1,4 @@
-﻿import { makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
+﻿import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
 import * as React from "react"
 import { Semester } from "./model"
 

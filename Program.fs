@@ -1,4 +1,5 @@
-﻿module RpdProcessor.App
+﻿/// Entry point, from default Giraffe template with little modifications.
+module RpdProcessor.App
 
 open System
 open System.IO
@@ -7,14 +8,12 @@ open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Hosting
 open Giraffe
 
 open Controller
 
-// ---------------------------------
-// Web app
-// ---------------------------------
-
+/// Routing table.
 let webApp =
     choose [
         GET >=>
@@ -25,18 +24,12 @@ let webApp =
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
-// ---------------------------------
-// Error handler
-// ---------------------------------
-
+/// Default error handler
 let errorHandler (ex : Exception) (logger : ILogger) =
     logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
     clearResponse >=> setStatusCode 500 >=> text ex.Message
 
-// ---------------------------------
-// Config and Main
-// ---------------------------------
-
+/// Default config and Main
 let configureCors (builder : CorsPolicyBuilder) =
     builder.WithOrigins("http://localhost:8080")
            .AllowAnyMethod()
@@ -44,7 +37,7 @@ let configureCors (builder : CorsPolicyBuilder) =
            |> ignore
 
 let configureApp (app : IApplicationBuilder) =
-    let env = app.ApplicationServices.GetService<IHostingEnvironment>()
+    let env = app.ApplicationServices.GetService<IWebHostEnvironment>()
     (match env.IsDevelopment() with
     | true  -> app.UseDeveloperExceptionPage()
     | false -> app.UseGiraffeErrorHandler errorHandler)

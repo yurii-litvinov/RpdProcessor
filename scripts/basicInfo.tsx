@@ -15,7 +15,7 @@ export class BasicInfo extends React.Component<BasicInfoProps> {
         let result =
             <div>
                 <h1>Дисциплина: [{discipline.code}] "{discipline.name}"</h1>
-                Общая трудоёмкость: {discipline.semesters.map((s) => s.laborIntensity).reduce((sum, i) => sum + i, 0)} з.е.
+                Общая трудоёмкость: {discipline.semesters.map((s) => s.laborIntensity).reduce((sum, i) => sum + i, 0)} з.е. (может быть неправдой, если дисциплина имеет разные траектории).
             </div>
 
         return result

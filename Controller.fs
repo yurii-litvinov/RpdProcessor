@@ -1,4 +1,5 @@
-﻿module RpdProcessor.Controller
+﻿/// Provides support for JSON API calls, also serves index page.
+module RpdProcessor.Controller
 
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks

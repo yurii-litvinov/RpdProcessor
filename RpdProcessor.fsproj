@@ -29,10 +29,15 @@
   <ItemGroup>
     <None Remove="scripts\app.tsx" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <TypeScriptCompile Remove="scripts\courseStructureEditor.tsx" />
+  </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="scripts\app.tsx" />
     <None Include="webpack.config.js" />
+    <Content Include="scripts\courseStructureEditor.tsx" />
     <Content Include="scripts\tsconfig.json" />
     <None Include="WebRoot/bundle.js" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

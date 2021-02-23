@@ -1,4 +1,5 @@
-﻿module RpdProcessor.CurriculumUtils
+﻿/// Wrapper around CurriculumParser, provides parsing of workload items, supports listing and loading of plans.
+module RpdProcessor.CurriculumUtils
 
 open System.Text.RegularExpressions
 open System.IO
@@ -6,6 +7,7 @@ open System.IO
 open CurriculumParser
 open DataContract
 
+/// Wrapper around CurriculumParser, provides info about single working plan.
 type Curriculum(fileName: string) =
     let curriculum = DocxCurriculum(fileName)
 
@@ -65,20 +67,25 @@ type Curriculum(fileName: string) =
             Semesters = semesters
         }
 
+    /// List of all disciplines in this plan.
     member _.Disciplines =
         curriculum.Disciplines
         |> Seq.map parseDiscipline
 
+    /// Programme name, for example, "СВ.5006".
     member _.Programme = programme
 
+    /// Year of admission of a plan, for example, "2019".
     member _.Year = year
 
+/// Loads a plan with given name. Plan name is expected in format"{programme name}-{year}", for example, "СВ.5162-2020".
 let loadCurriculum (name: string) =
     if File.Exists $"WorkingPlans/{name}.docx" then
         Some(Curriculum($"WorkingPlans/{name}.docx"))
     else
         None
 
+/// Returns a list of available working plan names as a sequence of PlanInfo objects.
 let listCurriculums () =
     let parseFileName fileName = 
         let matches = Regex.Match(fileName, @"(..\.\d{4})-(\d{4})")
