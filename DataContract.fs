@@ -72,9 +72,19 @@ type Discipline =
         [<JsonProperty("name")>]
         Name: string
 
-        /// A list of competences improved by this discipline.
-        [<JsonProperty("competences")>]
-        Competences: Competence list
+        /// A list of competences that this discipline starts to form (there are no disciplines with these competences 
+        /// that precede this discipline in a working plan).
+        [<JsonProperty("formedCompetences")>]
+        FormedCompetences: Competence list
+
+        /// A list of competences improved by this discipline (so we can have them in prerequisites).
+        [<JsonProperty("improvedCompetences")>]
+        ImprovedCompetences: Competence list
+
+        /// A list of competences fully formed by studying this discipline (so we can test students after 
+        /// this discipline, no disciplines later in working plan improve these competences).
+        [<JsonProperty("fullyFormedCompetences")>]
+        FullyFormedCompetences: Competence list
 
         /// A list of semesters in which the discipline is implemented, with semester-specific info.
         [<JsonProperty("semesters")>]

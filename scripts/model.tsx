@@ -23,6 +23,8 @@ export class Semester {
 export class Discipline {
     code: string
     name: string
-    competences: Competence[]
+    formedCompetences: Competence[]
+    improvedCompetences: Competence[]
+    fullyFormedCompetences: Competence[]
     semesters: Semester[]
 }

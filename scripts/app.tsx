@@ -107,7 +107,11 @@ class App extends React.Component<{}, AppState> {
                     onDisciplineCodeChanged={this.handleDisciplineCodeChanged}
                     apiStatus={this.state.status} />
                 <BasicInfo discipline={this.state.discipline} />
-                <Competences competences={this.state.discipline?.competences} />
+                <Competences
+                    formedCompetences={this.state.discipline?.formedCompetences}
+                    improvedCompetences={this.state.discipline?.improvedCompetences}
+                    fullyFormedCompetences={this.state.discipline?.fullyFormedCompetences}
+                />
                 <SemesterList discipline={this.state.discipline} />
                 <CourseStructureEditor
                     discipline={this.state.discipline}

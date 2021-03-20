@@ -49,28 +49,78 @@ type Curriculum(fileName: string) =
             Workload = getWorkTypes impl
         }
 
+    let semesters (discipline: CurriculumParser.Discipline) =
+        let sortedSemesters = discipline.Implementations |> Seq.map (fun i -> i.Semester) |> Seq.sort
+        (Seq.head sortedSemesters, Seq.last sortedSemesters)
+
+    let isCompetenceFormedInSemester (semester: int) (curriculum: DocxCurriculum) (competence: Competence) =
+        if semester = 1 then
+            true
+        else
+            curriculum.Disciplines
+            |> Seq.map (fun d -> 
+                let startSemester, _ = semesters d
+                (startSemester, d.Implementations.[0].Competences)
+                )
+            |> Seq.filter (fun (s, _) -> s < semester)
+            |> Seq.filter (fun (_, cs) -> cs |> Seq.exists (fun c -> c.Code = competence.Code))
+            |> Seq.isEmpty
+
+    let isCompetenceFinishedFormingInSemester (semester: int) (curriculum: DocxCurriculum) (competence: Competence) =
+        if semester = 8 then
+            true
+        else
+            curriculum.Disciplines
+            |> Seq.map (fun d -> 
+                let _, endSemester = semesters d
+                (endSemester, d.Implementations.[0].Competences)
+                )
+            |> Seq.filter (fun (e, _) -> e > semester)
+            |> Seq.filter (fun (_, cs) -> cs |> Seq.exists (fun c -> c.Code = competence.Code))
+            |> Seq.isEmpty
+
     let competences (discipline: CurriculumParser.Discipline) =
         discipline.Implementations.[0].Competences
         |> Seq.map (fun c -> {Code = c.Code; Description = c.Description})
         |> Seq.toList
 
-    let parseDiscipline (discipline: CurriculumParser.Discipline) =
-        let semesters = 
+    let parseDiscipline (curriculum: DocxCurriculum) (discipline: CurriculumParser.Discipline) =
+        let semestersList = 
             discipline.Implementations
             |> Seq.map parseImplementations
+            |> Seq.toList
+
+        let competencesList = competences discipline
+        let startSemester, endSemester = semesters discipline
+        let formedCompetences = 
+            competencesList 
+            |> Seq.filter (isCompetenceFormedInSemester startSemester curriculum)
+            |> Seq.toList
+
+        let fullyFormedCompetences = 
+            competencesList 
+            |> Seq.filter (isCompetenceFinishedFormingInSemester endSemester curriculum)
+            |> Seq.toList
+
+        let improvedCompetences = 
+            competencesList 
+            |> Seq.filter ((isCompetenceFinishedFormingInSemester startSemester curriculum) >> not)
+            |> Seq.filter ((isCompetenceFormedInSemester startSemester curriculum) >> not)
             |> Seq.toList
 
         { 
             Code = discipline.Code
             Name = discipline.RussianName
-            Competences = competences discipline
-            Semesters = semesters
+            FormedCompetences = formedCompetences
+            ImprovedCompetences = improvedCompetences
+            FullyFormedCompetences = fullyFormedCompetences
+            Semesters = semestersList
         }
 
     /// List of all disciplines in this plan.
     member _.Disciplines =
         curriculum.Disciplines
-        |> Seq.map parseDiscipline
+        |> Seq.map (parseDiscipline curriculum)
 
     /// Programme name, for example, "СВ.5006".
     member _.Programme = programme
